@@ -96,13 +96,13 @@ class Client
      * @param string $type
      * @param string $device
      * @param string $planId
-     * @param string $description
+     * @param string|null $description
      * @param string $country
      * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \JsonException
      */
-    public function save ( string $token, int $userId, string $province, string $city, string $address, float $longitude, float $latitude, string $type, string $device, string $planId, string $description = '', string $country = '中国' ): array
+    public function save ( string $token, int $userId, string $province, string $city, string $address, float $longitude, float $latitude, string $type, string $device, string $planId, ?string $description, string $country = '中国' ): array
     {
         $response = $this->client()
             ->post ( 'attendence/clock/v2/save', [
