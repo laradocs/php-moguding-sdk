@@ -23,6 +23,17 @@ composer update laradocs/moguding
 
 ## 用法
 
+注：只要是返回的数据全部都是数组
+
+如果没有数据会返回 空数组
+
+请不要使用 isArray 来判断是不是登录失败等一系列操作。
+
+敏感数据我会用 xx/xxx 代替，并不是返回的真实数据。
+
+参数和返回的具体重要数据请往下看！！！
+
+
 ```php
 use Laradocs\Moguding\Client;
 
@@ -38,7 +49,7 @@ $factory = new Client();
  */
 $user = $factory->login ( $device, $phone, $password );
 // 登录成功返回的重要数据
-data: [
+[
     "userId"   => "xxx",
     "token"    => "xxx",
     "userType" => "student" // 这里教师账号返回的应该是 teacher，我没测试过
@@ -47,32 +58,37 @@ data: [
 /**
  * 获取计划
  * 
- * @param string $token $user['token']
- * @param string $userType $user['userType']
- * @param int $userId $user['userId']
+ * @param string $token $user['token'] // 用户登录后返回的数据
+ * @param string $userType $user['userType'] // 同上
+ * @param int $userId $user['userId'] // 同上
  * 
  * @return array
  */
 $getPlan = $factory->getPlan ( $token, $userType, $userId );
 // 获取计划返回的重要数据
-data[0]: [
-    "planId" => "xxx",
+// 注：这里是二维数组，可以用 foreach 遍历。
+// 基本上都可以用 [0]['planId'] 取出来
+// 如果是要符合大众就用 foreach 吧，特殊情况特殊处理。
+[
+    [
+        "planId" => "xxx",
+    ]
 ]
 
 /**
  * 打卡保存
  * 
- * @param string $token $user['token']
- * @param string $userId $user['userId']
- * @param string $province 省
- * @param string $city 市
+ * @param string $token $user['token'] // 这个是用户登录返回的数据
+ * @param string $userId $user['userId'] // 同上
+ * @param string $province 省 // 千万要打全 例如：上海市 / 江西省
+ * @param string $city 市 // 千万要打全 例如：长宁区 / 南昌市
  * @param string $address 详细地址（不要带上省和市）
- * @param float $longitude 经度
- * @param float $latitude 纬度
- * @param string $type START|END「注：START: 上班|END: 下班」
+ * @param float $longitude 经度 // 下面有说明
+ * @param float $latitude 纬度 // 下面有说明
+ * @param string $type START|END「START: 上班|END: 下班」
  * @param string $device android|ios
- * @param string $planId $getPlan['planId']
- * @param string $description 简介（非必填）
+ * @param string $planId $getPlan['planId'] // 这个是获取计划返回的
+ * @param string $description 备注（非必填）
  * @param string $country 国家（默认是中国）
  * 
  * @return array

@@ -54,7 +54,7 @@ class Client
                 ],
             ] );
 
-        return $this->body($response) ?? [];
+        return $this->body($response);
     }
 
     /**
@@ -80,7 +80,7 @@ class Client
                 ],
             ] );
 
-        return $this->body($response) ?? [];
+        return $this->body($response);
     }
 
     /**
@@ -124,7 +124,7 @@ class Client
                 ],
             ] );
 
-        return $this->body($response) ?? [];
+        return $this->body($response);
     }
 
     /**
@@ -143,6 +143,6 @@ class Client
             throw new TokenExpiredException();
         }
 
-        return $data;
+        return $data [ 'data' ] ?? [];
     }
 }
