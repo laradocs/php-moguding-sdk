@@ -108,7 +108,7 @@ $save = $factory->save (
     $country
 );
 // 打卡保存返回的数据
-data: [
+[
   "code" => 200
   "msg" => "success"
   "data" => [
