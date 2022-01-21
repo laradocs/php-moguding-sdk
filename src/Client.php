@@ -27,6 +27,7 @@ class Client
     {
         $config = [
             'base_uri' => $this->baseUri,
+            'timeout' => 1.5,
         ];
         $factory = new Guzzle ( $config );
 
