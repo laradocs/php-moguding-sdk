@@ -115,7 +115,7 @@ class Client
                     'country'     => $country,
                     'province'    => $province,
                     'city'        => $city,
-                    'address'     => $address,
+                    'address'     => sprintf ( '%s%s%s%s', $country, $province, $city, $address ),
                     'longitude'   => $longitude,
                     'latitude'    => $latitude,
                     'type'        => $type,
