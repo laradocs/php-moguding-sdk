@@ -109,7 +109,7 @@ class Client
             ->post ( 'attendence/clock/v2/save', [
                 'headers' => [
                     'authorization' => $token,
-                    'sign'          => md5 ( sprintf ('%s%s%s%d%s%s', $device, $type, $planId, $userId, $address, $this->salt ) ),
+                    'sign'          => md5 ( sprintf ('%s%s%s%d%s%s', ucfirst ( $device ), $type, $planId, $userId, $address, $this->salt ) ),
                 ],
                 'json' => [
                     'country'     => $country,
