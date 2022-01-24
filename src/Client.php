@@ -108,7 +108,7 @@ class Client
         if ( empty ( $city ) ) {
             $city = $province;
         }
-        $address = sprintf ( '%d%d%d%d', $country, $province, $city === $province ? '' : $city, $address );
+        $address = sprintf ( '%s%s%s%s', $country, $province, $city === $province ? '' : $city, $address );
         $response = $this->client()
             ->post ( 'attendence/clock/v2/save', [
                 'headers' => [
