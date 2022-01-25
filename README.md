@@ -127,6 +127,28 @@ $save = $factory->save (
 
 一般输入市区就可以了，例如 `南昌`（后面不要加 `市`）
 
+---
+
+> 新功能：Server 酱 - 消息通知
+
+[Server 酱](https://sct.ftqq.com) 是一款「手机」和「服务器」、「智能设备」之间的通信软件。
+
+说人话？就是从服务器、路由器等设备上推消息到手机的工具。
+
+用法：
+
+```php
+/**
+ * Server 酱 - 消息通知
+ * 
+ * @params string $title 标题
+ * @params string $desp 后文
+ * 
+ * @return void
+ */
+$factory->sct_send ( SendKey, $title, $desp );
+```
+
 ## 说明
 
 如果有需要更改国家同学可以这么做：

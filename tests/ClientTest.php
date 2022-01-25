@@ -41,4 +41,15 @@ class ClientTest extends TestCase
         $this->assertNotEmpty ( $data );
         $this->assertSame ( 200, $data [ 'code' ] );
     }
+
+
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testSctSend()
+    {
+        $factory = Mockery::mock ( Client::class );
+        $factory->shouldReceive ( 'sctSend' );
+        $factory->sctSend ( 'xxx', '标题', '后文' );
+    }
 }

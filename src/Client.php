@@ -2,7 +2,9 @@
 
 namespace Laradocs\Moguding;
 
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
+use Laradocs\Exceptions\SendKeyInvalidException;
 use Laradocs\Moguding\Exceptions\TokenExpiredException;
 use GuzzleHttp\Client as Guzzle;
 
@@ -149,5 +151,33 @@ class Client
         }
 
         return $data [ 'data' ] ?? [];
+    }
+
+    /**
+     * Server 酱 - 消息通知
+     *
+     * @param string|null $sendKey
+     * @param string $title
+     * @param string|null $desp
+     * @return void
+     * @throws GuzzleException
+     */
+    public function sctSend ( ?string $sendKey, string $title, ?string $desp ): void
+    {
+        if ( empty ( $sendKey ) ) {
+            return;
+        }
+
+        $factory = new Guzzle();
+        try {
+            $factory->post ( 'https://sctapi.ftqq.com/' . $sendKey . '.send', [
+                'form_params' => [
+                    'title' => $title,
+                    'desp' => $desp,
+                ],
+            ] );
+        } catch ( GuzzleException ) {
+            echo '打卡成功！Server 酱消息通知发送失败，请检查 SendKey 配置。' . PHP_EOL;
+        }
     }
 }
