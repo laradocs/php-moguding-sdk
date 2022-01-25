@@ -109,12 +109,8 @@ $save = $factory->save (
 );
 // 打卡保存返回的数据
 [
-  "code" => 200
-  "msg" => "success"
-  "data" => [
     "createTime" => "2022-01-15 07:08:49"
     "attendanceId" => "xxxxxxxxxxxxxxxxxxxxxxxx"
-  ]
 ]
 ```
 
