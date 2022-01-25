@@ -137,7 +137,7 @@ $save = $factory->save (
  * 
  * @return void
  */
-$factory->sct_send ( SendKey, $title, $desp );
+$factory->sctSend ( SendKey, $title, $desp );
 ```
 
 ## 说明
