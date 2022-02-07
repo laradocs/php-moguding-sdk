@@ -79,7 +79,7 @@ $getPlan = $factory->getPlan ( $token, $userType, $userId );
  * 打卡保存
  * 
  * @param string $token $user['token'] // 这个是用户登录返回的数据
- * @param string $userId $user['userId'] // 同上
+ * @param int $userId $user['userId'] // 同上
  * @param string $province 省 // 千万要打全 例如：上海市 / 江西省
  * @param string $city 市 // 千万要打全 例如：上海市（直辖市这里有个细节，也可以直接用 $province 变量） / 南昌市
  * @param string $address 详细地址（国家省市地址）可以在蘑菇丁上面看定位，直辖市的话就不要加省或市(例：国家省/市xx区地址)省和市二选一
