@@ -162,7 +162,7 @@ class Client
      * @return void
      * @throws GuzzleException
      */
-    public function sctSend ( ?string $sendKey, string $title, ?string $desp ): void
+    public function sctSend ( ?string $sendKey, string $title, ?string $desp = null ): void
     {
         if ( empty ( $sendKey ) ) {
             return;
