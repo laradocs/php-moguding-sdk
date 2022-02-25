@@ -31,7 +31,7 @@ class Client
             'base_uri' => $this->baseUri,
             'timeout' => 1.5,
         ];
-        $factory = new Guzzle ( $config );
+        $factory = new Guzzle ($config);
 
         return $factory;
     }
@@ -46,16 +46,16 @@ class Client
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \JsonException
      */
-    public function login ( string $device, string $phone, string $password ): array
+    public function login(string $device, string $phone, string $password): array
     {
         $response = $this->client()
-            ->post ( 'session/user/v1/login', [
+            ->post('session/user/v1/login', [
                 'json' => [
                     'loginType' => $device,
                     'phone' => $phone,
                     'password' => $password
                 ],
-            ] );
+            ]);
 
         return $this->body($response);
     }
@@ -70,18 +70,18 @@ class Client
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \JsonException
      */
-    public function getPlan ( string $token, string $userType, int $userId ): array
+    public function getPlan(string $token, string $userType, int $userId): array
     {
         $response = $this->client()
-            ->post ( 'practice/plan/v3/getPlanByStu', [
+            ->post('practice/plan/v3/getPlanByStu', [
                 'headers' => [
                     'authorization' => $token,
                 ],
                 'json' => [
                     'roleKey' => $userType,
-                    'sign'    => md5 ( sprintf ( '%d%s%s', $userId, $userType, $this->salt ) ),
+                    'sign' => md5(sprintf('%d%s%s', $userId, $userType, $this->salt)),
                 ],
-            ] );
+            ]);
 
         return $this->body($response);
     }
@@ -105,31 +105,31 @@ class Client
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \JsonException
      */
-    public function save ( string $token, int $userId, string $province, ?string $city, string $address, float $longitude, float $latitude, string $type, string $device, string $planId, ?string $description, string $country = '中国' ): array
+    public function save(string $token, int $userId, string $province, ?string $city, string $address, float $longitude, float $latitude, string $type, string $device, string $planId, ?string $description = null, string $country = '中国'): array
     {
-        if ( empty ( $city ) ) {
+        if (empty ($city)) {
             $city = $province;
         }
-        $address = sprintf ( '%s%s%s%s', $country, $province, ( ( $city === $province ) ? '' : $city ), $address );
+        $address = sprintf('%s%s%s%s', $country, $province, (($city === $province) ? '' : $city), $address);
         $response = $this->client()
-            ->post ( 'attendence/clock/v2/save', [
+            ->post('attendence/clock/v2/save', [
                 'headers' => [
                     'authorization' => $token,
-                    'sign'          => md5 ( sprintf ('%s%s%s%d%s%s', ucfirst ( $device ), $type, $planId, $userId, $address, $this->salt ) ),
+                    'sign' => md5(sprintf('%s%s%s%d%s%s', ucfirst($device), $type, $planId, $userId, $address, $this->salt)),
                 ],
                 'json' => [
-                    'country'     => $country,
-                    'province'    => $province,
-                    'city'        => $city,
-                    'address'     => $address,
-                    'longitude'   => $longitude,
-                    'latitude'    => $latitude,
-                    'type'        => $type,
-                    'device'      => ucfirst ( $device ),
-                    'planId'      => $planId,
+                    'country' => $country,
+                    'province' => $province,
+                    'city' => $city,
+                    'address' => $address,
+                    'longitude' => $longitude,
+                    'latitude' => $latitude,
+                    'type' => $type,
+                    'device' => ucfirst($device),
+                    'planId' => $planId,
                     'description' => $description,
                 ],
-            ] );
+            ]);
 
         return $this->body($response);
     }
@@ -141,16 +141,16 @@ class Client
      * @return array
      * @throws \JsonException
      */
-    protected function body ( Response $response ): array
+    protected function body(Response $response): array
     {
         $body = $response->getBody();
         try {
-            $data = json_decode ( $body, true, 512, JSON_THROW_ON_ERROR );
-        } catch ( TokenExpiredException ) {
+            $data = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
+        } catch (TokenExpiredException) {
             throw new TokenExpiredException();
         }
 
-        return $data [ 'data' ] ?? [];
+        return $data ['data'] ?? [];
     }
 
     /**
@@ -162,21 +162,21 @@ class Client
      * @return void
      * @throws GuzzleException
      */
-    public function sctSend ( ?string $sendKey, string $title, ?string $desp = null ): void
+    public function sctSend(?string $sendKey, string $title, ?string $desp = null): void
     {
-        if ( empty ( $sendKey ) ) {
+        if (empty ($sendKey)) {
             return;
         }
 
         $factory = new Guzzle();
         try {
-            $factory->post ( 'https://sctapi.ftqq.com/' . $sendKey . '.send', [
+            $factory->post('https://sctapi.ftqq.com/' . $sendKey . '.send', [
                 'form_params' => [
                     'title' => $title,
                     'desp' => $desp,
                 ],
-            ] );
-        } catch ( GuzzleException ) {
+            ]);
+        } catch (GuzzleException) {
             echo '打卡成功！Server 酱消息通知发送失败，请检查 SendKey 配置。' . PHP_EOL;
         }
     }
