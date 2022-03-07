@@ -7,6 +7,7 @@ use GuzzleHttp\Psr7\Response;
 use Laradocs\Exceptions\SendKeyInvalidException;
 use Laradocs\Moguding\Exceptions\TokenExpiredException;
 use GuzzleHttp\Client as Guzzle;
+use Laradocs\Moguding\Exceptions\UnauthenticatedException;
 
 class Client
 {
@@ -25,7 +26,7 @@ class Client
      *
      * @return Guzzle
      */
-    protected function client(): Guzzle
+    public function client(): Guzzle
     {
         $config = [
             'base_uri' => $this->baseUri,
@@ -53,7 +54,7 @@ class Client
                 'json' => [
                     'loginType' => $device,
                     'phone' => $phone,
-                    'password' => $password
+                    'password' => $password,
                 ],
             ]);
 
@@ -144,13 +145,12 @@ class Client
     protected function body(Response $response): array
     {
         $body = $response->getBody();
-        try {
-            $data = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
-        } catch (TokenExpiredException) {
-            throw new TokenExpiredException();
+        $data = json_decode($body, true);
+        if (empty ($data ['data'])) {
+            throw new UnauthenticatedException($data ['msg']);
         }
 
-        return $data ['data'] ?? [];
+        return $data ['data'];
     }
 
     /**
