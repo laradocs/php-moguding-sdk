@@ -57,8 +57,8 @@ class Client
                         'password' => $password,
                     ],
                 ]);
-        } catch ( GuzzleException ) {
-            throw new RequestTimeoutException ( '登录请求超时。' );
+        } catch (GuzzleException) {
+            throw new RequestTimeoutException ('登录请求超时。');
         }
 
         return $this->body($response);
@@ -85,7 +85,7 @@ class Client
                         'sign' => md5(sprintf('%d%s%s', $userId, $userType, $this->salt)),
                     ],
                 ]);
-        } catch ( GuzzleException ) {
+        } catch (GuzzleException) {
             throw new RequestTimeoutException('获取计划请求超时。');
         }
 
@@ -136,7 +136,7 @@ class Client
                         'description' => $description,
                     ],
                 ]);
-        } catch ( GuzzleException ) {
+        } catch (GuzzleException) {
             throw new RequestTimeoutException('打卡保存请求超时。');
         }
 
