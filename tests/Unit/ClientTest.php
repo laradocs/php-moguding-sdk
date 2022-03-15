@@ -45,7 +45,6 @@ class ClientTest extends TestCase
         $this->assertSame('2022-01-15 11:35:58', $data ['createTime']);
     }
 
-
     /**
      * @doesNotPerformAssertions
      */
@@ -56,7 +55,7 @@ class ClientTest extends TestCase
         $factory->sctSend('xxx', '标题', '后文');
     }
 
-    protected function client()
+    protected function client(): Guzzle
     {
         $factory = Mockery::mock(Guzzle::class);
         $factory->shouldReceive('post')->withAnyArgs()->andReturnUsing(function ($url) {
