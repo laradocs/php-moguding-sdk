@@ -157,3 +157,9 @@ $save = $factory->save (
 ## 协作
 
 如果您想参与此项目，请点击右上角的 `Fork` 按钮，我们共同维护此项目。
+
+## Project supported by JetBrains
+
+Many thanks to Jetbrains for kindly providing a license for me to work on this and other open-source projects.
+
+[![JetBrains](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/?from=https://github.com/laradocs)
