@@ -78,7 +78,6 @@ class Client
             throw new RequestTimeoutException();
         }
 
-
         return $this->body($response);
     }
 
