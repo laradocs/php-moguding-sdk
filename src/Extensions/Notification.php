@@ -8,7 +8,7 @@ use Laradocs\Moguding\Exceptions\SendKeyInvalidException;
 
 class Notification
 {
-    public function client($url): Guzzle
+    public function client(string $url): Guzzle
     {
         $config = [
             'base_uri' => $url,
