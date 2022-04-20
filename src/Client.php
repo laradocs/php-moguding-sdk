@@ -4,36 +4,23 @@ namespace Laradocs\Moguding;
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
-use Laradocs\Exceptions\SendKeyInvalidException;
 use Laradocs\Moguding\Exceptions\RequestTimeoutException;
-use Laradocs\Moguding\Exceptions\TokenExpiredException;
 use GuzzleHttp\Client as Guzzle;
 use Laradocs\Moguding\Exceptions\UnauthenticatedException;
 
 class Client
 {
-    /**
-     * @var string 接口
-     */
     protected string $baseUri = 'https://api.moguding.net:9000';
 
-    /**
-     * @var string 盐值
-     */
     protected string $salt = '3478cbbc33f84bd00d75d7dfa69e0daa';
 
-    /**
-     * 基本配置
-     *
-     * @return Guzzle
-     */
     public function client(): Guzzle
     {
         $config = [
             'base_uri' => $this->baseUri,
             'timeout' => 1.5,
         ];
-        $factory = new Guzzle ($config);
+        $factory = new Guzzle($config);
 
         return $factory;
     }
@@ -44,6 +31,7 @@ class Client
      * @param string $device
      * @param string $phone
      * @param string $password
+     *
      * @return array
      */
     public function login(string $device, string $phone, string $password): array
@@ -58,7 +46,7 @@ class Client
                     ],
                 ]);
         } catch (GuzzleException) {
-            throw new RequestTimeoutException ('登录请求超时。');
+            throw new RequestTimeoutException();
         }
 
         return $this->body($response);
@@ -70,6 +58,7 @@ class Client
      * @param string $token
      * @param string $userType
      * @param int $userId
+     *
      * @return array
      */
     public function getPlan(string $token, string $userType, int $userId): array
@@ -82,11 +71,11 @@ class Client
                     ],
                     'json' => [
                         'roleKey' => $userType,
-                        'sign' => md5(sprintf('%d%s%s', $userId, $userType, $this->salt)),
+                        'sign' => md5("{$userId}{$userType}{$this->salt}"),
                     ],
                 ]);
         } catch (GuzzleException) {
-            throw new RequestTimeoutException('获取计划请求超时。');
+            throw new RequestTimeoutException();
         }
 
 
@@ -108,20 +97,18 @@ class Client
      * @param string $planId
      * @param string|null $description
      * @param string $country
+     *
      * @return array
      */
     public function save(string $token, int $userId, string $province, ?string $city, string $address, float $longitude, float $latitude, string $type, string $device, string $planId, ?string $description = null, string $country = '中国'): array
     {
-        if (empty ($city)) {
-            $city = $province;
-        }
-        $address = sprintf('%s%s%s%s', $country, $province, (($city === $province) ? '' : $city), $address);
+        $address = "{$country}{$province}{$city}{$address}";
         try {
             $response = $this->client()
                 ->post('attendence/clock/v2/save', [
                     'headers' => [
                         'authorization' => $token,
-                        'sign' => md5(sprintf('%s%s%s%d%s%s', ucfirst($device), $type, $planId, $userId, $address, $this->salt)),
+                        'sign' => md5(ucfirst($device) . "{$type}{$planId}{$userId}{$address}{$this->salt}"),
                     ],
                     'json' => [
                         'country' => $country,
@@ -137,53 +124,27 @@ class Client
                     ],
                 ]);
         } catch (GuzzleException) {
-            throw new RequestTimeoutException('打卡保存请求超时。');
+            throw new RequestTimeoutException();
         }
 
         return $this->body($response);
     }
 
     /**
-     * 返回响应数据
+     * 返回数据
      *
      * @param Response $response
+     *
      * @return array
      */
     protected function body(Response $response): array
     {
         $body = $response->getBody();
         $data = json_decode($body, true);
-        if (empty ($data ['data'])) {
-            throw new UnauthenticatedException($data ['msg']);
+        if (isset($data['data'])) {
+            return $data['data'];
         }
 
-        return $data ['data'];
-    }
-
-    /**
-     * Server 酱 - 消息通知
-     *
-     * @param string|null $sendKey
-     * @param string $title
-     * @param string|null $desp
-     * @return void
-     */
-    public function sctSend(?string $sendKey, string $title, ?string $desp = null): void
-    {
-        if (empty ($sendKey)) {
-            return;
-        }
-
-        $factory = new Guzzle();
-        try {
-            $factory->post('https://sctapi.ftqq.com/' . $sendKey . '.send', [
-                'form_params' => [
-                    'title' => $title,
-                    'desp' => $desp,
-                ],
-            ]);
-        } catch (GuzzleException) {
-            echo '打卡成功！Server 酱消息通知发送失败，请检查 SendKey 配置。' . PHP_EOL;
-        }
+        throw new UnauthenticatedException($data['msg']);
     }
 }

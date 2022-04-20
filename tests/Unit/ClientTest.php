@@ -1,6 +1,6 @@
 <?php
 
-namespace Laradocs\Tests\Unit;
+namespace Tests\Unit;
 
 use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Psr7\Response;
@@ -22,7 +22,7 @@ class ClientTest extends TestCase
         $data = $factory->login('android', 'xxx', 'xxx');
 
         $this->assertNotEmpty($data);
-        $this->assertSame('student', $data ['userType']);
+        $this->assertSame('student', $data['userType']);
     }
 
     public function testGetPlan(): void
@@ -32,7 +32,7 @@ class ClientTest extends TestCase
         $data = $factory->getPlan('xxx', 'student', 1);
 
         $this->assertNotEmpty($data);
-        $this->assertSame("987654", $data [0]['planId']);
+        $this->assertSame("987654", $data[0]['planId']);
     }
 
     public function testSave(): void
@@ -42,17 +42,7 @@ class ClientTest extends TestCase
         $data = $factory->save('123456', '10000', 'xxx', 'xxx', 'xxxxxxxxxx', 100.000000, 10.000000, 'xxx', 'xxxx', '987654');
 
         $this->assertNotEmpty($data);
-        $this->assertSame('2022-01-15 11:35:58', $data ['createTime']);
-    }
-
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testSctSend(): void
-    {
-        $factory = Mockery::mock(Client::class);
-        $factory->shouldReceive('sctSend');
-        $factory->sctSend('xxx', '标题', '后文');
+        $this->assertSame('2022-01-15 11:35:58', $data['createTime']);
     }
 
     protected function client(): Guzzle
