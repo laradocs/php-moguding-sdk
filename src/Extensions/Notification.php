@@ -4,7 +4,6 @@ namespace Laradocs\Moguding\Extensions;
 
 use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Exception\GuzzleException;
-use Laradocs\Moguding\Exceptions\SendKeyInvalidException;
 
 class Notification
 {
@@ -44,7 +43,7 @@ class Notification
                     ],
                 ]);
         } catch (GuzzleException) {
-            throw new SendKeyInvalidException();
+            echo '[Server 酱] 通知推送 SendKey 配置失效。' . PHP_EOL;
         }
     }
 }
