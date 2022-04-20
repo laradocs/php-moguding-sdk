@@ -2,9 +2,9 @@
 
 namespace Laradocs\Moguding\Exceptions;
 
-use RuntimeException;
+use UnexpectedValueException;
 
-class SendKeyInvalidException extends RuntimeException
+class SendKeyInvalidException extends UnexpectedValueException
 {
 
 }
