@@ -4,7 +4,6 @@ namespace Laradocs\Moguding\Extensions;
 
 use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Exception\GuzzleException;
-use Laradocs\Moguding\Exceptions\SendKeyInvalidException;
 
 class Notification
 {
