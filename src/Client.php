@@ -46,7 +46,7 @@ class Client
                     ],
                 ]);
         } catch (GuzzleException) {
-            echo '[Server 酱] 通知推送 SendKey 配置失效。' . PHP_EOL;
+            throw new RequestTimeoutException();
         }
 
         return $this->body($response);
