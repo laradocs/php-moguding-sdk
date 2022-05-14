@@ -4,7 +4,7 @@ namespace Laradocs\Moguding\Exceptions;
 
 use RuntimeException;
 
-class UnauthenticatedException extends RuntimeException
+class TokenInvalidException extends RuntimeException
 {
 
 }

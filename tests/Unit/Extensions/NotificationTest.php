@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Extensions;
+namespace Unit\Extensions;
 
 use Laradocs\Moguding\Extensions\Notification;
 use PHPUnit\Framework\TestCase;

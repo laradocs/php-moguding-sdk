@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Unit;
+namespace Unit;
 
-use GuzzleHttp\Client as Guzzle;
+use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use Laradocs\Moguding\Client;
+use Laradocs\Moguding\MogudingManager;
 use PHPUnit\Framework\TestCase;
 use Mockery;
 
-class ClientTest extends TestCase
+class MogudingManagerTest extends TestCase
 {
     protected function tearDown(): void
     {
@@ -17,7 +17,7 @@ class ClientTest extends TestCase
 
     public function testLogin(): void
     {
-        $factory = Mockery::mock(Client::class . '[client]');
+        $factory = Mockery::mock(MogudingManager::class . '[client]');
         $factory->shouldReceive('client')->andReturn($this->client());
         $data = $factory->login('android', 'xxx', 'xxx');
 
@@ -27,7 +27,7 @@ class ClientTest extends TestCase
 
     public function testGetPlan(): void
     {
-        $factory = Mockery::mock(Client::class . '[client]');
+        $factory = Mockery::mock(MogudingManager::class . '[client]');
         $factory->shouldReceive('client')->andReturn($this->client());
         $data = $factory->getPlan('xxx', 'student', 1);
 
@@ -37,7 +37,7 @@ class ClientTest extends TestCase
 
     public function testSave(): void
     {
-        $factory = Mockery::mock(Client::class . '[client]');
+        $factory = Mockery::mock(MogudingManager::class . '[client]');
         $factory->shouldReceive('client')->andReturn($this->client());
         $data = $factory->save('123456', '10000', 'xxx', 'xxx', 'xxxxxxxxxx', 100.000000, 10.000000, 'xxx', 'xxxx', '987654');
 
@@ -45,9 +45,9 @@ class ClientTest extends TestCase
         $this->assertSame('2022-01-15 11:35:58', $data['createTime']);
     }
 
-    protected function client(): Guzzle
+    protected function client(): Client
     {
-        $factory = Mockery::mock(Guzzle::class);
+        $factory = Mockery::mock(Client::class);
         $factory->shouldReceive('post')->withAnyArgs()->andReturnUsing(function ($url) {
             if (str_contains($url, 'login')) {
                 $body = file_get_contents(__DIR__ . '/../login.json');

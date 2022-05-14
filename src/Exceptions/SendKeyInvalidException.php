@@ -8,4 +8,3 @@ class SendKeyInvalidException extends RuntimeException
 {
 
 }
-

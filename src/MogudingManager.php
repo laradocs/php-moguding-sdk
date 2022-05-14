@@ -2,25 +2,25 @@
 
 namespace Laradocs\Moguding;
 
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
 use Laradocs\Moguding\Exceptions\RequestTimeoutException;
-use GuzzleHttp\Client as Guzzle;
-use Laradocs\Moguding\Exceptions\UnauthenticatedException;
+use Laradocs\Moguding\Exceptions\TokenInvalidException;
 
-class Client
+class MogudingManager implements MogudingResolverInterface
 {
     protected string $baseUri = 'https://api.moguding.net:9000';
 
     protected string $salt = '3478cbbc33f84bd00d75d7dfa69e0daa';
 
-    public function client(): Guzzle
+    public function client(): Client
     {
         $config = [
             'base_uri' => $this->baseUri,
             'timeout' => 1.5,
         ];
-        $factory = new Guzzle($config);
+        $factory = new Client($config);
 
         return $factory;
     }
@@ -130,13 +130,6 @@ class Client
         return $this->body($response);
     }
 
-    /**
-     * 返回数据
-     *
-     * @param Response $response
-     *
-     * @return array
-     */
     protected function body(Response $response): array
     {
         $body = $response->getBody();
@@ -145,6 +138,6 @@ class Client
             return $data['data'];
         }
 
-        throw new UnauthenticatedException($data['msg']);
+        throw new TokenInvalidException($data['msg']);
     }
 }

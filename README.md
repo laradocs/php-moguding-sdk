@@ -33,11 +33,10 @@ composer update laradocs/moguding
 
 参数和返回的具体重要数据请往下看！！！
 
-
 ```php
-use Laradocs\Moguding\Client;
+use Laradocs\Moguding\MogudingManager;
 
-$factory = new Client();
+$factory = new MogudingManager();
 /**
  * 用户登录
  * 
