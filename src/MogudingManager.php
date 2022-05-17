@@ -8,7 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use Laradocs\Moguding\Exceptions\RequestTimeoutException;
 use Laradocs\Moguding\Exceptions\TokenInvalidException;
 
-class MogudingManager implements MogudingResolverInterface
+class MogudingManager
 {
     protected string $baseUri = 'https://api.moguding.net:9000';
 
