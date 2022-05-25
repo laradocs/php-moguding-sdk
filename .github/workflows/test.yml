@@ -1,0 +1,24 @@
+name: Test
+
+on: [ 'push', 'pull_request' ]
+
+jobs:
+  phpunit:
+    name: Test PHP ${{ matrix.php_version }}
+    strategy:
+      matrix:
+        php_version:
+          - '8.0'
+          - '8.1'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup PHP environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_version }}
+          coverage: xdebug
+      - name: Install dependencies
+        run: composer install
+      - name: Run Test Cases
+        run: ./vendor/bin/phpunit --coverage-text
