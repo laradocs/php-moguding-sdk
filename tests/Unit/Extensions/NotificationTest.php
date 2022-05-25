@@ -3,8 +3,8 @@
 namespace Unit\Extensions;
 
 use Laradocs\Moguding\Extensions\Notification;
-use PHPUnit\Framework\TestCase;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 
 class NotificationTest extends TestCase
 {

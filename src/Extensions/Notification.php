@@ -12,7 +12,7 @@ class Notification
     {
         $config = [
             'base_uri' => $url,
-            'timeout' => 1.5,
+            'timeout'  => 1.5,
         ];
         $factory = new Guzzle($config);
 
@@ -20,7 +20,7 @@ class Notification
     }
 
     /**
-     * Server Chan
+     * Server Chan.
      *
      * @link https://sct.ftqq.com
      *
@@ -35,12 +35,13 @@ class Notification
         if (is_null($sendKey)) {
             return;
         }
+
         try {
             $this->client('https://sctapi.ftqq.com')
                 ->post("{$sendKey}.send", [
                     'form_params' => [
                         'title' => $title,
-                        'desp' => $desp,
+                        'desp'  => $desp,
                     ],
                 ]);
         } catch (GuzzleException) {

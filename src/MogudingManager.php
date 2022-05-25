@@ -18,7 +18,7 @@ class MogudingManager
     {
         $config = [
             'base_uri' => $this->baseUri,
-            'timeout' => 1.5,
+            'timeout'  => 1.5,
         ];
         $factory = new Client($config);
 
@@ -26,7 +26,7 @@ class MogudingManager
     }
 
     /**
-     * 用户登录
+     * 用户登录.
      *
      * @param string $device
      * @param string $phone
@@ -41,8 +41,8 @@ class MogudingManager
                 ->post('session/user/v1/login', [
                     'json' => [
                         'loginType' => $device,
-                        'phone' => $phone,
-                        'password' => $password,
+                        'phone'     => $phone,
+                        'password'  => $password,
                     ],
                 ]);
         } catch (GuzzleException) {
@@ -53,11 +53,11 @@ class MogudingManager
     }
 
     /**
-     * 获取计划
+     * 获取计划.
      *
      * @param string $token
      * @param string $userType
-     * @param int $userId
+     * @param int    $userId
      *
      * @return array
      */
@@ -71,55 +71,55 @@ class MogudingManager
                     ],
                     'json' => [
                         'roleKey' => $userType,
-                        'sign' => md5("{$userId}{$userType}{$this->salt}"),
+                        'sign'    => md5("{$userId}{$userType}{$this->salt}"),
                     ],
                 ]);
         } catch (GuzzleException) {
             throw new RequestTimeoutException();
         }
 
-
         return $this->body($response);
     }
 
     /**
-     * 打卡保存
+     * 打卡保存.
      *
-     * @param string $token
-     * @param int $userId
-     * @param string $province
+     * @param string      $token
+     * @param int         $userId
+     * @param string      $province
      * @param string|null $city
-     * @param string $address
-     * @param float $longitude
-     * @param float $latitude
-     * @param string $type
-     * @param string $device
-     * @param string $planId
+     * @param string      $address
+     * @param float       $longitude
+     * @param float       $latitude
+     * @param string      $type
+     * @param string      $device
+     * @param string      $planId
      * @param string|null $description
-     * @param string $country
+     * @param string      $country
      *
      * @return array
      */
     public function save(string $token, int $userId, string $province, ?string $city, string $address, float $longitude, float $latitude, string $type, string $device, string $planId, ?string $description = null, string $country = '中国'): array
     {
         $address = "{$country}{$province}{$city}{$address}";
+
         try {
             $response = $this->client()
                 ->post('attendence/clock/v2/save', [
                     'headers' => [
                         'authorization' => $token,
-                        'sign' => md5(ucfirst($device) . "{$type}{$planId}{$userId}{$address}{$this->salt}"),
+                        'sign'          => md5(ucfirst($device)."{$type}{$planId}{$userId}{$address}{$this->salt}"),
                     ],
                     'json' => [
-                        'country' => $country,
-                        'province' => $province,
-                        'city' => $city,
-                        'address' => $address,
-                        'longitude' => $longitude,
-                        'latitude' => $latitude,
-                        'type' => $type,
-                        'device' => ucfirst($device),
-                        'planId' => $planId,
+                        'country'     => $country,
+                        'province'    => $province,
+                        'city'        => $city,
+                        'address'     => $address,
+                        'longitude'   => $longitude,
+                        'latitude'    => $latitude,
+                        'type'        => $type,
+                        'device'      => ucfirst($device),
+                        'planId'      => $planId,
                         'description' => $description,
                     ],
                 ]);
