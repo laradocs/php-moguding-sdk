@@ -26,13 +26,7 @@ class MogudingManager
     }
 
     /**
-     * 用户登录
-     *
-     * @param string $device
-     * @param string $phone
-     * @param string $password
-     *
-     * @return array
+     * 用户登录.
      */
     public function login(string $device, string $phone, string $password): array
     {
@@ -53,13 +47,7 @@ class MogudingManager
     }
 
     /**
-     * 获取计划
-     *
-     * @param string $token
-     * @param string $userType
-     * @param int $userId
-     *
-     * @return array
+     * 获取计划.
      */
     public function getPlan(string $token, string $userType, int $userId): array
     {
@@ -78,27 +66,11 @@ class MogudingManager
             throw new RequestTimeoutException();
         }
 
-
         return $this->body($response);
     }
 
     /**
-     * 打卡保存
-     *
-     * @param string $token
-     * @param int $userId
-     * @param string $province
-     * @param string|null $city
-     * @param string $address
-     * @param float $longitude
-     * @param float $latitude
-     * @param string $type
-     * @param string $device
-     * @param string $planId
-     * @param string|null $description
-     * @param string $country
-     *
-     * @return array
+     * 打卡保存.
      */
     public function save(string $token, int $userId, string $province, ?string $city, string $address, float $longitude, float $latitude, string $type, string $device, string $planId, ?string $description = null, string $country = '中国'): array
     {
@@ -108,7 +80,7 @@ class MogudingManager
                 ->post('attendence/clock/v2/save', [
                     'headers' => [
                         'authorization' => $token,
-                        'sign' => md5(ucfirst($device) . "{$type}{$planId}{$userId}{$address}{$this->salt}"),
+                        'sign' => md5(ucfirst($device)."{$type}{$planId}{$userId}{$address}{$this->salt}"),
                     ],
                     'json' => [
                         'country' => $country,

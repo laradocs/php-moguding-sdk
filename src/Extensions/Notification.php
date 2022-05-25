@@ -20,15 +20,9 @@ class Notification
     }
 
     /**
-     * Server Chan
+     * Server Chan.
      *
-     * @link https://sct.ftqq.com
-     *
-     * @param string|null $sendKey
-     * @param string|null $title
-     * @param string|null $desp
-     *
-     * @return void
+     * @see https://sct.ftqq.com
      */
     public function sct(?string $sendKey = null, ?string $title = null, ?string $desp = null): void
     {
