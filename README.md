@@ -4,6 +4,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/laradocs/moguding/v/unstable.svg)](https://packagist.org/packages/laradocs/moguding)
 [![License](https://poser.pugx.org/laradocs/moguding/license.svg)](https://packagist.org/packages/laradocs/moguding)
 [![StyleCI](https://github.styleci.io/repos/447994762/shield?branch=master)](https://github.styleci.io/repos/447994762?branch=master)
+[![Test](https://github.com/laradocs/php-moguding-sdk/actions/workflows/test.yml/badge.svg)](https://github.com/laradocs/php-moguding-sdk/actions/workflows/test.yml)
 
 🍄蘑菇丁自动签到|打卡组件
 
