@@ -3,6 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/laradocs/moguding/v/stable.svg)](https://packagist.org/packages/laradocs/moguding)
 [![Latest Unstable Version](https://poser.pugx.org/laradocs/moguding/v/unstable.svg)](https://packagist.org/packages/laradocs/moguding)
 [![License](https://poser.pugx.org/laradocs/moguding/license.svg)](https://packagist.org/packages/laradocs/moguding)
+[![StyleCI](https://github.styleci.io/repos/447994762/shield?branch=master)](https://github.styleci.io/repos/447994762?branch=master)
 
 🍄蘑菇丁自动签到|打卡组件
 
@@ -13,12 +14,6 @@ PHP 需要 8.0 或以上版本
 
 ```php
 composer require laradocs/moguding
-```
-
-### 更新
-
-```
-composer update laradocs/moguding
 ```
 
 ## 用法
