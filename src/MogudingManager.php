@@ -34,7 +34,7 @@ class MogudingManager
      *
      * @return array
      */
-    public function login(string $device, string $phone, string $password): array
+    public function login(  string $device, string $phone, string $password): array
     {
         try {
             $response = $this->client()
