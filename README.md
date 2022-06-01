@@ -8,7 +8,12 @@
 
 🍄蘑菇丁自动签到|打卡组件
 
+## 交流
+
+[交流群](https://qm.qq.com/cgi-bin/qm/qr?k=zbymM6W3sUh11Sjx9ZVDo8vbwL2YpWkL&jump_from=webapi) ID: 253228619
+
 ## PHP 版本
+
 PHP 需要 8.0 或以上版本
 
 ## 安装
@@ -25,135 +30,116 @@ composer update laradocs/moguding
 
 ## 用法
 
-注：只要是返回的数据全部都是数组
-
-如果没有数据会返回 空数组
-
-请不要使用 isArray 来判断是不是登录失败等一系列操作。
-
-敏感数据我会用 xx/xxx 代替，并不是返回的真实数据。
-
-参数和返回的具体重要数据请往下看！！！
+### 获取用户信息
 
 ```php
-use Laradocs\Moguding\MogudingManager;
+use Laradocs\Moguding\Moguding;
+use Laradocs\Moguding\Params\LoginParam;
+use Laradocs\Moguding\Params\Login;
 
-$factory = new MogudingManager();
-/**
- * 用户登录
- * 
- * @param string $device android|ios
- * @param string $phone 手机号码
- * @param string $password 密码
- * 
- * @return array
- */
-$user = $factory->login ( $device, $phone, $password );
-// 登录成功返回的重要数据
+$moguding = new Moguding();
+$user = $mogiding->getUserProfile(new LoginParam(
+    new Login('操作系统(android/ios)', '手机号码', '密码')
+));
+
+var_dump($user); // 见 返回示例
+```
+
+返回示例(重要数据)：
+
+```php
 [
-    "userId"   => "xxx",
-    "token"    => "xxx",
-    "userType" => "student" // 这里教师账号返回的应该是 teacher，我没测试过
+    "token"    => 'xxxxxx',
+    "userId"   => '用户ID',
+    "userType" => 'student',
+    .
+    .
+    .
 ]
+```
 
-/**
- * 获取计划
- * 
- * @param string $token $user['token'] // 用户登录后返回的数据
- * @param string $userType $user['userType'] // 同上
- * @param int $userId $user['userId'] // 同上
- * 
- * @return array
- */
-$getPlan = $factory->getPlan ( $token, $userType, $userId );
-// 获取计划返回的重要数据
-// 注：这里是二维数组，可以用 foreach 遍历。
-// 基本上都可以用 [0]['planId'] 取出来
-// 如果是要符合大众就用 foreach 吧，特殊情况特殊处理。
+### 获取计划列表
+
+```php
+use Laradocs\Moguding\Moguding;
+use Laradocs\Moguding\Params\UserParam;
+use Laradocs\Moguding\Params\User;
+
+$moguding = new Moguding();
+$plans = $moguding->getPlanList(new UserParam(
+    new User($user['token'], $user['userId'], $user['userType'])
+));
+
+var_dump($plans); // 见 返回示例
+```
+
+返回示例(重要数据)：
+
+```php
 [
     [
-        "planId" => "xxx",
+        "planId" => "xxxxxx",
+        .
+        .
+        .
     ]
 ]
+```
 
-/**
- * 打卡保存
- * 
- * @param string $token $user['token'] // 这个是用户登录返回的数据
- * @param int $userId $user['userId'] // 同上
- * @param string $province 省 // 千万要打全 例如：上海市 / 江西省
- * @param string $city 市 // 千万要打全 例如：上海市（直辖市这里有个细节，也可以直接用 $province 变量） / 南昌市
- * @param string $address 详细地址（国家省市地址）可以在蘑菇丁上面看定位，直辖市的话就不要加省或市(例：国家省/市xx区地址)省和市二选一
- * @param float $longitude 经度 // 下面有说明
- * @param float $latitude 纬度 // 下面有说明
- * @param string $type START|END「START: 上班|END: 下班」
- * @param string $device android|ios
- * @param string $planId $getPlan['planId'] // 这个是获取计划返回的
- * @param string $description 备注（非必填）
- * @param string $country 国家（默认是中国）
- * 
- * @return array
- */
-$save = $factory->save (
-    $token,
-    $userId,
-    $province,
-    $city,
-    $address,
-    $longitude,
-    $latitude,
-    $type,
-    $device,
-    $planId,
-    $description,
-    $country
-);
-// 打卡保存返回的数据
+### 获取打卡信息
+
+
+📍 不知道自己所在的经纬度点击👉 [经纬度查询 - 坐标拾取系统](https://jingweidu.bmcx.com)
+
+```php
+use Laradocs\Moguding\Moguding;
+use Laradocs\Moguding\Params\SaveParam;
+use Laradocs\Moguding\Params\Save;
+use Laradocs\Moguding\Params\User;
+use Laradocs\Moguding\Params\Address;
+
+$moguding = new Moguding();
+$save = $moguding->getSaveInfo(new SaveParam(
+    new Save(
+        new User($user['token'], $user['userId'], $user['userType']),
+        new Address('所在省份', '所在城市(直辖市的同学传 null 就行)', '详细地址', '经度', '纬度', '所在国家(默认：中国)'),
+        $plans[0]['planId'],
+        '操作系统(android/ios)',
+        '打卡类型(START/END)', // START: 上班 END: 下班
+        '备注(非必填)'
+    )
+))
+
+var_dump($save); // 见 返回示例
+```
+
+返回示例(重要数据)：
+
+```
 [
-    "createTime" => "2022-01-15 07:08:49"
-    "attendanceId" => "xxxxxxxxxxxxxxxxxxxxxxxx"
+    "createTime"   => "2022-01-15 07:08:49",
+    "attendanceId" => "xxxxxxxxxxxxxxxxxxx",
+    .
+    .
+    .
 ]
 ```
 
- 📍 不知道自己所在的经纬度点击👉 [经纬度查询 - 坐标拾取系统](https://jingweidu.bmcx.com)
+### 通知推送
 
-一般输入市区就可以了，例如 `南昌`（后面不要加 `市`）
+#### Server 酱
 
----
-
-> 新功能：Server 酱 - 消息通知
-
-[Server 酱](https://sct.ftqq.com) 是一款「手机」和「服务器」、「智能设备」之间的通信软件。
-
-说人话？就是从服务器、路由器等设备上推消息到手机的工具。
-
-用法：
+在使用此功能之前，你需要去 [Server 酱](https://sct.ftqq.com) 注册账号，然后获取 SendKey。
 
 ```php
-/**
- * Server 酱 - 消息通知
- * 
- * @params string $title 标题
- * @params string $desp 后文
- * 
- * @return void
- */
-$factory->sctSend ( SendKey, $title, $desp );
+use Laradocs\Moguding\Plugins\ServerChan;
+
+$message = new ServerChan('SendKey');
+$message->title('推送标题') // 必须
+        ->desp('推送正文') // 非必须
+        ->channel(['推送通道']) // 非必须
+        ->send(); // 发送通知
 ```
-
-## 说明
-
-如果有需要更改国家同学可以这么做：
-
-```php
-$save = $factory->save (
-    ...
-    '', // 使用 ''｜"" 做占位符
-    '菲律宾'
-);
-```
-
-如有其它疑问或问题，请在 **[Issues](https://github.com/laradocs/php-moguding-sdk/issues)** 提出。
 
 ## 协作
 
