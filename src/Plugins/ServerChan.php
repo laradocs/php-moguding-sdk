@@ -4,7 +4,6 @@ namespace Laradocs\Moguding\Plugins;
 
 use Exception;
 use GuzzleHttp\RequestOptions;
-use Laradocs\Moguding\Exceptions\HttpException;
 use Laradocs\Moguding\Exceptions\InvalidArgumentException;
 use Laradocs\Moguding\Exceptions\SendKeyInvalidException;
 use Laradocs\Moguding\Utils\Json;
@@ -12,30 +11,23 @@ use Laradocs\Moguding\Utils\Json;
 class ServerChan extends Channel
 {
     /**
-     * 消息标题
-     *
-     * @var string
+     * 消息标题.
      */
     protected string $title;
 
     /**
-     * 消息正文
-     *
-     * @var string|null
+     * 消息正文.
      */
     protected ?string $desp = null;
 
     /**
-     * 推送通道
-     *
-     * @var string|null
+     * 推送通道.
      */
     protected ?string $channel = null;
 
     /**
-     * 设置消息标题
+     * 设置消息标题.
      *
-     * @param string $title
      * @return $this
      */
     public function title(string $title): self
@@ -46,9 +38,8 @@ class ServerChan extends Channel
     }
 
     /**
-     * 设置消息正文
+     * 设置消息正文.
      *
-     * @param string $desp
      * @return $this
      */
     public function desp(string $desp): self
@@ -59,15 +50,15 @@ class ServerChan extends Channel
     }
 
     /**
-     * 设置推送通道
+     * 设置推送通道.
      *
-     * @param array $channels
      * @return $this
+     *
      * @throws InvalidArgumentException
      */
     public function channel(array $channels): self
     {
-        if ($channels != null && count($channels) > 2) {
+        if (null != $channels && count($channels) > 2) {
             throw new InvalidArgumentException('The channels parameter invalid value');
         }
 
@@ -77,14 +68,14 @@ class ServerChan extends Channel
     }
 
     /**
-     * 发送通知
+     * 发送通知.
      */
     public function send(): array
     {
         if (empty($this->key)) {
             return [];
         }
-        if (! isset($this->title)) {
+        if (!isset($this->title)) {
             throw new InvalidArgumentException('The title parameter invalid value');
         }
 

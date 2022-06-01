@@ -44,7 +44,7 @@ class ServerChanTest extends TestCase
         $client = Mockery::mock(Client::class);
         $client->shouldReceive('post')->withAnyArgs()->andReturnUsing(function ($url) {
             if (str_contains($url, 'ftqq')) {
-                $body = file_get_contents(__DIR__ . '/../../json/ftqq.json');
+                $body = file_get_contents(__DIR__.'/../../json/ftqq.json');
             }
 
             return new Response(body: $body);

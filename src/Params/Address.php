@@ -5,44 +5,32 @@ namespace Laradocs\Moguding\Params;
 class Address
 {
     /**
-     * 所在省份
-     *
-     * @var string
+     * 所在省份.
      */
     public string $province;
 
     /**
      * 所在城市
-     *
-     * @var string|null
      */
     public ?string $city;
 
     /**
      * 详细地址
-     *
-     * @var string
      */
     public string $address;
 
     /**
-     * 经度
-     *
-     * @var float
+     * 经度.
      */
     public float $longitude;
 
     /**
-     * 纬度
-     *
-     * @var float
+     * 纬度.
      */
     public float $latitude;
 
     /**
-     * 所在国家
-     *
-     * @var string
+     * 所在国家.
      */
     public string $country;
 
@@ -57,9 +45,7 @@ class Address
     }
 
     /**
-     * 序列化
-     *
-     * @return array
+     * 序列化.
      */
     public function serialize(): array
     {

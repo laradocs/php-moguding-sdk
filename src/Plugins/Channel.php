@@ -2,15 +2,12 @@
 
 namespace Laradocs\Moguding\Plugins;
 
-
 use GuzzleHttp\Client;
 
 abstract class Channel
 {
     /**
-     * SendKey
-     *
-     * @var string
+     * SendKey.
      */
     protected string $key;
 

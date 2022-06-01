@@ -7,16 +7,12 @@ use Laradocs\Moguding\Params\User;
 class UserAdapter
 {
     /**
-     * 用户 ID
-     *
-     * @var int
+     * 用户 ID.
      */
     public int $id;
 
     /**
-     * 用户类型
-     *
-     * @var string
+     * 用户类型.
      */
     public string $type;
 

@@ -183,13 +183,13 @@ class MogudingTest extends TestCase
         $client = Mockery::mock(Client::class);
         $client->shouldReceive('post')->withAnyArgs()->andReturnUsing(function ($url) {
             if (str_contains($url, 'login')) {
-                $body = file_get_contents(__DIR__ . '/../json/login.json');
+                $body = file_get_contents(__DIR__.'/../json/login.json');
             }
             if (str_contains($url, 'getPlanByStu')) {
-                $body = file_get_contents(__DIR__ . '/../json/get_plan_by_stu.json');
+                $body = file_get_contents(__DIR__.'/../json/get_plan_by_stu.json');
             }
             if (str_contains($url, 'save')) {
-                $body = file_get_contents(__DIR__ . '/../json/save.json');
+                $body = file_get_contents(__DIR__.'/../json/save.json');
             }
 
             return new Response(body: $body);

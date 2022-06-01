@@ -11,9 +11,7 @@ class UserParam
     use HasSignature;
 
     /**
-     * 用户实例
-     *
-     * @var User
+     * 用户实例.
      */
     protected User $user;
 
@@ -23,9 +21,7 @@ class UserParam
     }
 
     /**
-     * 请求体
-     *
-     * @return array
+     * 请求体.
      */
     public function body(): array
     {

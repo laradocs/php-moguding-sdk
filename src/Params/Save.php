@@ -7,54 +7,42 @@ use Laradocs\Moguding\Exceptions\InvalidArgumentException;
 class Save
 {
     /**
-     * 用户实例
-     *
-     * @var User
+     * 用户实例.
      */
     public User $user;
 
     /**
-     * 地址实例
-     *
-     * @var Address
+     * 地址实例.
      */
     public Address $address;
 
     /**
-     * 计划 ID
-     *
-     * @var string
+     * 计划 ID.
      */
     public string $planId;
 
     /**
      * 操作系统
-     *
-     * @var string
      */
     public string $system;
 
     /**
-     * 打卡类型
-     *
-     * @var string
+     * 打卡类型.
      */
     public string $type;
 
     /**
-     * 备注说明
-     *
-     * @var string|null
+     * 备注说明.
      */
     public ?string $description;
 
     public function __construct(User $user, Address $address, string $planId, string $system, string $type, ?string $description = null)
     {
-        if (! in_array(strtolower($system), ['android', 'ios'])) {
-            throw new InvalidArgumentException('The system parameter invalid value(android/ios): ' . $system);
+        if (!in_array(strtolower($system), ['android', 'ios'])) {
+            throw new InvalidArgumentException('The system parameter invalid value(android/ios): '.$system);
         }
-        if (! in_array($type, ['START', 'END'])) {
-            throw new InvalidArgumentException('The type parameter invalid value(START/END): ' . $type);
+        if (!in_array($type, ['START', 'END'])) {
+            throw new InvalidArgumentException('The type parameter invalid value(START/END): '.$type);
         }
 
         $this->user = $user;
@@ -66,9 +54,7 @@ class Save
     }
 
     /**
-     * 序列化
-     *
-     * @return array
+     * 序列化.
      */
     public function serialize(): array
     {

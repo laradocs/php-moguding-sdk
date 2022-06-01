@@ -7,37 +7,27 @@ use Laradocs\Moguding\Params\Save;
 class SaveAdapter
 {
     /**
-     * 用户 ID
-     *
-     * @var int
+     * 用户 ID.
      */
     public int $userId;
 
     /**
      * 详细地址
-     *
-     * @var string
      */
     public string $address;
 
     /**
-     * 打卡类型
-     *
-     * @var string
+     * 打卡类型.
      */
     public string $type;
 
     /**
      * 操作系统
-     *
-     * @var string
      */
     public string $system;
 
     /**
-     * 计划 ID
-     *
-     * @var string
+     * 计划 ID.
      */
     public string $planId;
 

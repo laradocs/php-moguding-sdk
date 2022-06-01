@@ -28,7 +28,7 @@ class Moguding
     }
 
     /**
-     * 获取用户信息
+     * 获取用户信息.
      */
     public function getUserProfile(LoginParam $param): array
     {
@@ -39,7 +39,7 @@ class Moguding
                 ->getContents();
             $data = Json::decode($response);
 
-            return $data['code'] == 200
+            return 200 == $data['code']
                 ? $data['data']
                 : throw new Exception($data['msg'], $data['code']);
         } catch (Exception $e) {
@@ -48,7 +48,7 @@ class Moguding
     }
 
     /**
-     * 获取计划列表
+     * 获取计划列表.
      */
     public function getPlanList(UserParam $param): array
     {
@@ -59,7 +59,7 @@ class Moguding
                 ->getContents();
             $data = Json::decode($response);
 
-            return $data['code'] == 200
+            return 200 == $data['code']
                 ? $data['data']
                 : throw new Exception($data['msg'], $data['code']);
         } catch (Exception $e) {
@@ -68,7 +68,7 @@ class Moguding
     }
 
     /**
-     * 获取打卡信息
+     * 获取打卡信息.
      */
     public function getSaveInfo(SaveParam $param): array
     {
@@ -79,7 +79,7 @@ class Moguding
                 ->getContents();
             $data = Json::decode($response);
 
-            return $data['code'] == 200
+            return 200 == $data['code']
                 ? $data['data']
                 : throw new Exception($data['msg'], $data['code']);
         } catch (Exception $e) {
