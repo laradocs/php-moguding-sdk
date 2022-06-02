@@ -2,24 +2,23 @@
 
 namespace Laradocs\Moguding\Traits;
 
-use Laradocs\Moguding\Adapters\SaveAdapter;
-use Laradocs\Moguding\Adapters\UserAdapter;
+use Laradocs\Moguding\Params\Address;
 
 trait HasSignature
 {
     protected string $salt = '3478cbbc33f84bd00d75d7dfa69e0daa';
 
-    protected function planSign(UserAdapter $adapter): string
+    protected function planSign(int $id, string $type): string
     {
         return md5(
-            sprintf('%d%s%s', $adapter->id, $adapter->type, $this->salt)
+            sprintf('%d%s%s', $id, $type, $this->salt)
         );
     }
 
-    protected function saveSign(SaveAdapter $adapter): string
+    protected function saveSign(string $device, string $type, string $planId, int $userId, string $address)
     {
         return md5(
-            sprintf('%s%s%s%d%s%s', $adapter->system, $adapter->type, $adapter->planId, $adapter->userId, $adapter->address, $this->salt)
+            sprintf('%s%s%s%d%s%s', $device, $type, $planId, $userId, $address, $this->salt)
         );
     }
 }

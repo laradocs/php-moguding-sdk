@@ -34,10 +34,10 @@ class MogudingTest extends TestCase
         ], $login->serialize());
     }
 
-    public function testLoginWithSystemInvalid()
+    public function testLoginWithDeviceInvalid()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The system parameter invalid value(android/ios): os');
+        $this->expectExceptionMessage('The device parameter invalid value(android/ios): os');
 
         new Login('os', 1388888888, '123456');
     }
@@ -104,10 +104,10 @@ class MogudingTest extends TestCase
         ], $save->serialize());
     }
 
-    public function testSaveWithSystemInvalid()
+    public function testSaveWithDeviceInvalid()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The system parameter invalid value(android/ios): os');
+        $this->expectExceptionMessage('The device parameter invalid value(android/ios): os');
 
         new Save(
             new User('mock-token', 1300000, 'student'),

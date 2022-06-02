@@ -3,7 +3,6 @@
 namespace Laradocs\Moguding\Params;
 
 use GuzzleHttp\RequestOptions;
-use Laradocs\Moguding\Adapters\UserAdapter;
 use Laradocs\Moguding\Traits\HasSignature;
 
 class UserParam
@@ -31,7 +30,7 @@ class UserParam
             ],
             RequestOptions::JSON => [
                 'roleKey' => $this->user->type,
-                'sign' => $this->planSign(new UserAdapter($this->user)),
+                'sign' => $this->planSign($this->user->id, $this->user->type),
             ],
         ];
     }

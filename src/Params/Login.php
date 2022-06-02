@@ -7,9 +7,9 @@ use Laradocs\Moguding\Exceptions\InvalidArgumentException;
 class Login
 {
     /**
-     * 操作系统
+     * 操作设备
      */
-    public string $system;
+    public string $device;
 
     /**
      * 手机号码
@@ -21,16 +21,16 @@ class Login
      */
     public string $password;
 
-    public function __construct(string $system, int $phone, string $password)
+    public function __construct(string $device, int $phone, string $password)
     {
-        if (!in_array($system, ['android', 'ios'])) {
-            throw new InvalidArgumentException('The system parameter invalid value(android/ios): '.$system);
+        if (!in_array($device, ['android', 'ios'])) {
+            throw new InvalidArgumentException('The device parameter invalid value(android/ios): '. $device);
         }
         if (11 !== strlen($phone)) {
             throw new InvalidArgumentException('The phone parameter length must be 11 digits');
         }
 
-        $this->system = $system;
+        $this->device = $device;
         $this->phone = $phone;
         $this->password = $password;
     }
@@ -41,7 +41,7 @@ class Login
     public function serialize(): array
     {
         return [
-            'loginType' => $this->system,
+            'loginType' => $this->device,
             'phone' => $this->phone,
             'password' => $this->password,
         ];
