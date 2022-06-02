@@ -9,7 +9,6 @@ use Laradocs\Moguding\Exceptions\SendKeyInvalidException;
 use Laradocs\Moguding\Plugins\ServerChan;
 use PHPUnit\Framework\TestCase;
 use Mockery;
-use Exception;
 
 class ServerChanTest extends TestCase
 {
