@@ -7,7 +7,7 @@ use Laradocs\Moguding\Exceptions\InvalidArgumentException;
 class Login
 {
     /**
-     * 操作设备
+     * 操作设备.
      */
     public string $device;
 
@@ -24,7 +24,7 @@ class Login
     public function __construct(string $device, int $phone, string $password)
     {
         if (!in_array($device, ['android', 'ios'])) {
-            throw new InvalidArgumentException('The device parameter invalid value(android/ios): '. $device);
+            throw new InvalidArgumentException('The device parameter invalid value(android/ios): '.$device);
         }
         if (11 !== strlen($phone)) {
             throw new InvalidArgumentException('The phone parameter length must be 11 digits');

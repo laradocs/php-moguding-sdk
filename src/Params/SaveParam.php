@@ -21,7 +21,7 @@ class SaveParam
         return [
             RequestOptions::HEADERS => [
                 'Authorization' => $this->save->user->token,
-                'sign' => $this->saveSign($this->save->device, $this->save->type, $this->save->planId, $this->save->user->id, $this->save->address->address)
+                'sign' => $this->saveSign($this->save->device, $this->save->type, $this->save->planId, $this->save->user->id, $this->save->address->address),
             ],
             RequestOptions::JSON => $this->save->serialize(),
         ];
