@@ -2,8 +2,6 @@
 
 namespace Laradocs\Moguding\Traits;
 
-use Laradocs\Moguding\Params\Address;
-
 trait HasSignature
 {
     protected string $salt = '3478cbbc33f84bd00d75d7dfa69e0daa';

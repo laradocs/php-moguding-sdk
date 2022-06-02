@@ -7,54 +7,42 @@ use Laradocs\Moguding\Exceptions\InvalidArgumentException;
 class Save
 {
     /**
-     * 用户实例
-     *
-     * @var User
+     * 用户实例.
      */
     public User $user;
 
     /**
-     * 地址实例
-     *
-     * @var Address
+     * 地址实例.
      */
     public Address $address;
 
     /**
-     * 计划 ID
-     *
-     * @var string
+     * 计划 ID.
      */
     public string $planId;
 
     /**
-     * 使用设备
-     *
-     * @var string
+     * 使用设备.
      */
     public string $device;
 
     /**
-     * 打卡类型
-     *
-     * @var string
+     * 打卡类型.
      */
     public string $type;
 
     /**
-     * 备注说明
-     *
-     * @var string|null
+     * 备注说明.
      */
     public ?string $description;
 
     public function __construct(User $user, Address $address, string $planId, string $device, string $type, ?string $description = null)
     {
-        if (! in_array($device, ['android', 'ios'])) {
-            throw new InvalidArgumentException('The device parameter invalid value(android/ios): ' . $device);
+        if (!in_array($device, ['android', 'ios'])) {
+            throw new InvalidArgumentException('The device parameter invalid value(android/ios): '.$device);
         }
-        if (! in_array($type, ['START', 'END'])) {
-            throw new InvalidArgumentException('The type parameter invalid value(START/END): ' . $type);
+        if (!in_array($type, ['START', 'END'])) {
+            throw new InvalidArgumentException('The type parameter invalid value(START/END): '.$type);
         }
         $this->user = $user;
         $this->address = $address;
