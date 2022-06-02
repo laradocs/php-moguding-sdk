@@ -10,9 +10,7 @@ class SaveParam
     use HasSignature;
 
     /**
-     * 保存实例
-     *
-     * @var Save
+     * 保存实例.
      */
     public Save $save;
 
@@ -22,7 +20,7 @@ class SaveParam
     }
 
     /**
-     * 请求体
+     * 请求体.
      *
      * @return array
      */

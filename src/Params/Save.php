@@ -53,9 +53,7 @@ class Save
     }
 
     /**
-     * 序列化
-     *
-     * @return array
+     * 序列化.
      */
     public function serialize(): array
     {

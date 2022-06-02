@@ -12,7 +12,7 @@ abstract class Channel
     protected string $key;
 
     /**
-     * Guzzle 配置
+     * Guzzle 配置.
      *
      * @var array
      */
@@ -24,10 +24,7 @@ abstract class Channel
     }
 
     /**
-     * 设置 Guzzle 配置
-     *
-     * @param array $options
-     * @return void
+     * 设置 Guzzle 配置.
      */
     public function setGuzzleOptions(array $options): void
     {
@@ -40,9 +37,7 @@ abstract class Channel
     }
 
     /**
-     * 推送消息
-     *
-     * @return array
+     * 推送消息.
      */
     abstract public function send(): array;
 }
