@@ -84,7 +84,7 @@ class ServerChan extends Channel
         try {
             $response = $this->getHttpClient()
                 ->post($uri, [
-                    RequestOptions::FORM_PARAMS => [
+                    RequestOptions::QUERY => [
                         'title' => $this->title,
                         'desp' => $this->desp,
                         'channel' => $this->channel,
