@@ -4,16 +4,26 @@ namespace Unit\Plugins;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use Laradocs\Moguding\Exceptions\InvalidArgumentException;
+use Laradocs\Moguding\Exceptions\MissingArgumentException;
+use Laradocs\Moguding\Exceptions\SendKeyInvalidException;
 use Laradocs\Moguding\Plugins\ServerChan;
 use PHPUnit\Framework\TestCase;
 use Mockery;
+use Exception;
 
 class ServerChanTest extends TestCase
 {
     protected function tearDown(): void
     {
         Mockery::close();
+    }
+
+    public function testKeyInvalidException()
+    {
+        $this->expectException(SendKeyInvalidException::class);
+
+        $server = new ServerChan('xxxx');
+        $server->title('测试标题')->send();
     }
 
     public function testSend()
@@ -30,10 +40,10 @@ class ServerChanTest extends TestCase
         $this->assertSame(0, $response['code']);
     }
 
-    public function testSendWithTitleIsNullException()
+    public function testSendWithTitleIsNullInvalid()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The title parameter invalid value');
+        $this->expectException(MissingArgumentException::class);
+        $this->expectExceptionMessage('The title parameter is required');
 
         $server = new ServerChan('mock-key');
         $server->send();

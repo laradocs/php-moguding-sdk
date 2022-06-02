@@ -4,6 +4,7 @@ namespace Unit;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use Laradocs\Moguding\Exceptions\HttpException;
 use Laradocs\Moguding\Exceptions\InvalidArgumentException;
 use Laradocs\Moguding\Moguding;
 use Laradocs\Moguding\Params\Address;
@@ -15,6 +16,7 @@ use Laradocs\Moguding\Params\User;
 use Laradocs\Moguding\Params\UserParam;
 use Mockery;
 use PHPUnit\Framework\TestCase;
+use Exception;
 
 class MogudingTest extends TestCase
 {
@@ -23,7 +25,7 @@ class MogudingTest extends TestCase
         Mockery::close();
     }
 
-    public function testLogin()
+    public function testLogin(): void
     {
         $login = new Login('android', 13888888888, '123456');
 
@@ -34,7 +36,7 @@ class MogudingTest extends TestCase
         ], $login->serialize());
     }
 
-    public function testLoginWithDeviceInvalid()
+    public function testLoginWithDeviceInvalid(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The device parameter invalid value(android/ios): os');
@@ -42,7 +44,7 @@ class MogudingTest extends TestCase
         new Login('os', 1388888888, '123456');
     }
 
-    public function testLoginWithPhoneInvalid()
+    public function testLoginWithPhoneInvalid(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The phone parameter length must be 11 digits');
@@ -50,7 +52,7 @@ class MogudingTest extends TestCase
         new Login('ios', 1388888888, '123456');
     }
 
-    public function testUser()
+    public function testUser(): void
     {
         $user = new User('mock-token', 1300000, 'student');
 
@@ -61,7 +63,7 @@ class MogudingTest extends TestCase
         ], $user->serialize());
     }
 
-    public function testUserWithTypeInvalid()
+    public function testUserWithTypeInvalid(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The type parameter invalid value(teacher/student): example');
@@ -83,7 +85,7 @@ class MogudingTest extends TestCase
         ], $address->serialize());
     }
 
-    public function testSave()
+    public function testSave(): void
     {
         $save = new Save(
             new User('mock-token', 1300000, 'student'),
@@ -107,7 +109,7 @@ class MogudingTest extends TestCase
         ], $save->serialize());
     }
 
-    public function testSaveWithDeviceInvalid()
+    public function testSaveWithDeviceInvalid(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The device parameter invalid value(android/ios): os');
@@ -121,7 +123,7 @@ class MogudingTest extends TestCase
         );
     }
 
-    public function testSaveWithTypeInvalid()
+    public function testSaveWithTypeInvalid(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The type parameter invalid value(START/END): foo');
@@ -135,7 +137,7 @@ class MogudingTest extends TestCase
         );
     }
 
-    public function testGetUserProfile()
+    public function testGetUserProfile(): void
     {
         $moguding = Mockery::mock(Moguding::class)->makePartial();
         $moguding->shouldReceive('getHttpClient')->andReturn($this->client());
@@ -151,7 +153,29 @@ class MogudingTest extends TestCase
         $this->assertSame('10000', $response['userId']);
     }
 
-    public function testGetPlanList()
+    public function testGetUserProfileWithGuzzleRuntimeException()
+    {
+        $client = Mockery::mock(Client::class);
+        $client->shouldReceive('post')
+            ->withAnyArgs()
+            ->andThrow(new Exception('Request timeout'));
+
+        $moguding = Mockery::mock(Moguding::class)->makePartial();
+        $moguding->shouldReceive('getHttpClient')
+            ->andReturn($client);
+
+        $this->expectException(HttpException::class);
+
+        $moguding->getUserProfile(new LoginParam(
+            new Login(
+                'android',
+                13888888888,
+                'mock-password'
+            )
+        ));
+    }
+
+    public function testGetPlanList(): void
     {
         $moguding = Mockery::mock(Moguding::class)->makePartial();
         $moguding->shouldReceive('getHttpClient')->andReturn($this->client());
@@ -163,7 +187,7 @@ class MogudingTest extends TestCase
         $this->assertSame(0, $response[0]['totalCount']);
     }
 
-    public function testGetSaveInfo()
+    public function testGetSaveInfo(): void
     {
         $moguding = Mockery::mock(Moguding::class)->makePartial();
         $moguding->shouldReceive('getHttpClient')->andReturn($this->client());

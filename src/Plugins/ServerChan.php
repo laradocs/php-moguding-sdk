@@ -5,6 +5,7 @@ namespace Laradocs\Moguding\Plugins;
 use Exception;
 use GuzzleHttp\RequestOptions;
 use Laradocs\Moguding\Exceptions\InvalidArgumentException;
+use Laradocs\Moguding\Exceptions\MissingArgumentException;
 use Laradocs\Moguding\Exceptions\SendKeyInvalidException;
 use Laradocs\Moguding\Utils\Json;
 
@@ -76,7 +77,7 @@ class ServerChan extends Channel
             return [];
         }
         if (!isset($this->title)) {
-            throw new InvalidArgumentException('The title parameter invalid value');
+            throw new MissingArgumentException('The title parameter is required');
         }
 
         $uri = "https://sctapi.ftqq.com/{$this->key}.send";
