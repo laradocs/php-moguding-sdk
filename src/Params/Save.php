@@ -52,6 +52,11 @@ class Save
         $this->description = $description;
     }
 
+    /**
+     * 序列化
+     *
+     * @return array
+     */
     public function serialize(): array
     {
         return array_merge($this->address->serialize(), [

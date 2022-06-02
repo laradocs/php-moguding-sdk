@@ -9,6 +9,11 @@ class SaveParam
 {
     use HasSignature;
 
+    /**
+     * 保存实例
+     *
+     * @var Save
+     */
     public Save $save;
 
     public function __construct(Save $save)
@@ -16,6 +21,11 @@ class SaveParam
         $this->save = $save;
     }
 
+    /**
+     * 请求体
+     *
+     * @return array
+     */
     public function body()
     {
         return [
