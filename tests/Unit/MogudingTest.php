@@ -74,11 +74,12 @@ class MogudingTest extends TestCase
         $address = new Address('上海市', null, '长宁区xxxxxxxxxx', 200.200000, 20.00000);
 
         $this->assertSame([
+            'country' => '中国',
             'province' => '上海市',
-            'address' => '长宁区xxxxxxxxxx',
+            'city' => null,
+            'address' => '中国上海市长宁区xxxxxxxxxx',
             'longitude' => 200.200000,
             'latitude' => 20.00000,
-            'country' => '中国',
         ], $address->serialize());
     }
 
@@ -95,12 +96,14 @@ class MogudingTest extends TestCase
         $this->assertSame([
             'country' => '中国',
             'province' => '上海市',
-            'address' => '长宁区xxxxxxxxxx',
-            'longitude' => 200.200000,
-            'latitude' => 20.00000,
-            'planId' => 'mock-planId',
-            'device' => 'Android',
+            'city' => null,
+            'address' => '中国上海市长宁区xxxxxxxxxx',
+            'longitude' => 200.2,
+            'latitude' => 20.0,
             'type' => 'START',
+            'device' => 'Android',
+            'planId' => 'mock-planId',
+            'description' => null,
         ], $save->serialize());
     }
 

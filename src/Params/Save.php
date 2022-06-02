@@ -2,22 +2,60 @@
 
 namespace Laradocs\Moguding\Params;
 
+use Laradocs\Moguding\Exceptions\InvalidArgumentException;
+
 class Save
 {
+    /**
+     * 用户实例
+     *
+     * @var User
+     */
     public User $user;
 
+    /**
+     * 地址实例
+     *
+     * @var Address
+     */
     public Address $address;
 
+    /**
+     * 计划 ID
+     *
+     * @var string
+     */
     public string $planId;
 
+    /**
+     * 使用设备
+     *
+     * @var string
+     */
     public string $device;
 
+    /**
+     * 打卡类型
+     *
+     * @var string
+     */
     public string $type;
 
+    /**
+     * 备注说明
+     *
+     * @var string|null
+     */
     public ?string $description;
 
     public function __construct(User $user, Address $address, string $planId, string $device, string $type, ?string $description = null)
     {
+        if (! in_array($device, ['android', 'ios'])) {
+            throw new InvalidArgumentException('The device parameter invalid value(android/ios): ' . $device);
+        }
+        if (! in_array($type, ['START', 'END'])) {
+            throw new InvalidArgumentException('The type parameter invalid value(START/END): ' . $type);
+        }
         $this->user = $user;
         $this->address = $address;
         $this->planId = $planId;
@@ -28,17 +66,11 @@ class Save
 
     public function serialize(): array
     {
-        return [
-            'country' => $this->address->country,
-            'province' => $this->address->province,
-            'city' => $this->address->city,
-            'address' => $this->address->address,
-            'longitude' => $this->address->longitude,
-            'latitude' => $this->address->latitude,
+        return array_merge($this->address->serialize(), [
             'type' => $this->type,
             'device' => $this->device,
             'planId' => $this->planId,
             'description' => $this->description,
-        ];
+        ]);
     }
 }

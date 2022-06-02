@@ -7,7 +7,7 @@ use Laradocs\Moguding\Exceptions\InvalidArgumentException;
 class Login
 {
     /**
-     * 操作设备
+     * 使用设备
      */
     public string $device;
 
